@@ -1,4 +1,4 @@
-import { TodoContext } from '@store/todo'
+import { TodoContext } from '@/store/todoState'
 import { TodoByHook, TodoByConsumer, TodoComponent } from '@components/Todo'
 
 /**
@@ -7,14 +7,16 @@ import { TodoByHook, TodoByConsumer, TodoComponent } from '@components/Todo'
  */
 function ContextAPI() {
   return (
-    <TodoContext.Provider value={{ todos: ['run', 'play'] }}>
+    <main>
       <h4 className="py-3">Context API</h4>
-      <main className="d-flex gap-5">
-        <TodoByHook />
-        <TodoByConsumer />
-        <TodoComponent />
-      </main>
-    </TodoContext.Provider>
+      <div className="d-flex gap-5">
+        <TodoContext.Provider value={{ todos: ['run', 'play'] }}>
+          <TodoByHook />
+          <TodoByConsumer />
+          <TodoComponent />
+        </TodoContext.Provider>
+      </div>
+    </main>
   )
 }
 

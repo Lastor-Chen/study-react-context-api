@@ -1,32 +1,43 @@
-import { useReducer } from 'react'
-import { productsReducer, ordersReducer, MixBothContext } from '@store/mixBoth'
-import Products from '@components/Products'
-import Orders from '@components/Orders'
-
-const productsInitState = { products: [] }
-const ordersInitState = { orders: [] }
+import { useContext } from 'react'
+import type { MouseEvent } from 'react'
+import { GlobalContext } from '@store/globalState'
+import { ProdActionType } from '@store/reducers/product'
+import { OrderActionType } from '@store/reducers/orders'
 
 function MixBoth() {
-  const [prodState, prodDispatch] = useReducer(productsReducer, productsInitState)
-  const [orderState, orderDispatch] = useReducer(ordersReducer, ordersInitState)
+  const { products, productDispatch, orders, orderDispatch } = useContext(GlobalContext)
 
-  console.log('render MixBoth')
+  const onAdd = (e: MouseEvent<HTMLButtonElement>) => {
+    const type = e.currentTarget.dataset.type
+    if (type === 'prod') {
+      productDispatch({ type: ProdActionType.ADD_PRODUCT })
+    } else if (type === 'order') {
+      orderDispatch({ type: OrderActionType.ADD_ORDER })
+    }
+  }
+
   return (
-    <div>
-      <h4>Mix Both</h4>
-      <MixBothContext.Provider
-        value={{
-          products: prodState.products,
-          orders: orderState.orders,
-          prodDispatch,
-          orderDispatch,
-        }}>
-        <div className="d-flex gap-4">
-          <Products />
-          <Orders />
+    <main>
+      <h4 className="py-3">Mix useContext with useReducer</h4>
+      <div className="d-flex gap-4">
+        <div>
+          <button onClick={onAdd} data-type="prod">
+            Add Product
+          </button>
+          {products.map((product, idx) => {
+            return <div key={idx}>Product {product.id}</div>
+          })}
         </div>
-      </MixBothContext.Provider>
-    </div>
+        <div>
+          <button onClick={onAdd} data-type="order">
+            Add Order
+          </button>
+          {orders.map((order, idx) => {
+            return <div key={idx}>Order {order.id}</div>
+          })}
+        </div>
+      </div>
+    </main>
   )
 }
 

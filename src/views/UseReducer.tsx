@@ -25,7 +25,7 @@ function UseReducer() {
 
   return (
     <main>
-      <h4>useReducer</h4>
+      <h4 className="py-3">useReducer</h4>
       <input type="text" onKeyPress={onUpdateTodo} ref={inputRef} />
       <button onClick={onAdd}>Add</button>
       <div className="d-flex flex-column gap-1 mt-2">
