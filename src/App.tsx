@@ -1,16 +1,16 @@
 import { Routes, Route, Link, Navigate } from 'react-router-dom'
-import ContextPage from '@/views/Context'
-import ReducerPage from '@/views/Reducer'
+import ContextAPI from '@/views/ContextAPI'
+import UseReducer from '@/views/UseReducer'
 import MixBothPage from '@/views/MixBoth'
 
 function App() {
   return (
     <div className="container">
       <nav className="nav">
-        <Link to="/context" className="nav-link ps-0">
+        <Link to="/context-api" className="nav-link ps-0">
           Context API
         </Link>
-        <Link to="/reducer" className="nav-link">
+        <Link to="/use-reducer" className="nav-link">
           useReducer
         </Link>
         <Link to="/mix-both" className="nav-link">
@@ -19,10 +19,11 @@ function App() {
       </nav>
 
       <Routes>
-        <Route path="/" element={<Navigate to="/context" />} />
-        <Route path="/context" element={<ContextPage />} />
-        <Route path="/reducer" element={<ReducerPage />} />
+        <Route path="/" element={<Navigate to="/context-api" />} />
+        <Route path="/context-api" element={<ContextAPI />} />
+        <Route path="/use-reducer" element={<UseReducer />} />
         <Route path="/mix-both" element={<MixBothPage />} />
+        <Route path="*" element={<Navigate to="/context-api" />} />
       </Routes>
     </div>
   )
