@@ -1,39 +1,45 @@
 import { useContext } from 'react'
-import type { MouseEvent } from 'react'
 import { GlobalContext } from '@store/globalState'
-import { ProdActionType } from '@store/reducers/product'
-import { OrderActionType } from '@store/reducers/orders'
+import { ItemsBActionType } from '@/store/reducers/itemsB'
 
 function MixBoth() {
-  const { products, productDispatch, orders, orderDispatch } = useContext(GlobalContext)
+  const { itemsA, setItemsA } = useContext(GlobalContext)
+  const { itemsB, dispatchItemsB } = useContext(GlobalContext)
 
-  const onAdd = (e: MouseEvent<HTMLButtonElement>) => {
-    const type = e.currentTarget.dataset.type
-    if (type === 'prod') {
-      productDispatch({ type: ProdActionType.ADD_PRODUCT })
-    } else if (type === 'order') {
-      orderDispatch({ type: OrderActionType.ADD_ORDER })
+  type EventType = 'itemsA' | 'itemsB'
+  const onAdd = (type: EventType) => {
+    if (type === 'itemsA') {
+      setItemsA(itemsA.concat({ id: itemsA.length }))
+    } else if (type === 'itemsB') {
+      dispatchItemsB({ type: ItemsBActionType.ADD })
+    }
+  }
+  const onRemove = (type: EventType) => {
+    if (type === 'itemsA') {
+      setItemsA(itemsA.slice(0, -1))
+    } else if (type === 'itemsB') {
+      dispatchItemsB({ type: ItemsBActionType.REMOVE })
     }
   }
 
   return (
     <main>
-      <h4 className="py-3">Mix useContext with useReducer</h4>
+      <h4 className="py-3">Mix useContext with useState and useReducer</h4>
       <div className="d-flex gap-4">
         <div>
-          <button onClick={onAdd} data-type="prod">
-            Add Product
-          </button>
-          {products.map((product, idx) => {
-            return <div key={idx}>Product {product.id}</div>
+          <h5>useState</h5>
+          <button onClick={() => onAdd('itemsA')}>Add</button>
+          <button onClick={() => onRemove('itemsA')}>Remove</button>
+          {itemsA.map((item, idx) => {
+            return <div key={idx}>ItemsA {item.id}</div>
           })}
         </div>
         <div>
-          <button onClick={onAdd} data-type="order">
-            Add Order
-          </button>
-          {orders.map((order, idx) => {
-            return <div key={idx}>Order {order.id}</div>
+          <h5>useReducer</h5>
+          <button onClick={() => onAdd('itemsB')}>Add</button>
+          <button onClick={() => onRemove('itemsB')}>Remove</button>
+          {itemsB.map((item, idx) => {
+            return <div key={idx}>ItemsB {item.id}</div>
           })}
         </div>
       </div>

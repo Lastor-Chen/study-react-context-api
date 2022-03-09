@@ -3,21 +3,18 @@ import ContextAPI from '@/views/ContextAPI'
 import UseReducer from '@/views/UseReducer'
 import MixBoth from '@/views/MixBoth'
 import { GlobalContext } from '@/store/globalState'
-import { useReducer } from 'react'
-import productsReducer from '@store/reducers/product'
-import ordersReducer from '@store/reducers/orders'
-
-const productsInitState = { products: [] }
-const ordersInitState = { orders: [] }
+import type { GlobalState } from '@/store/globalState'
+import { useReducer, useState } from 'react'
+import itemsBReducer from '@/store/reducers/itemsB'
 
 function App() {
-  const [prodState, productDispatch] = useReducer(productsReducer, productsInitState)
-  const [orderState, orderDispatch] = useReducer(ordersReducer, ordersInitState)
-  const providerValue = {
-    products: prodState.products,
-    orders: orderState.orders,
-    productDispatch,
-    orderDispatch,
+  const [itemsA, setItemsA] = useState<GlobalState['itemsA']>([])
+  const [itemsBState, dispatchItemsB] = useReducer(itemsBReducer, { itemsB: [] })
+  const providerValue: GlobalState = {
+    itemsA: itemsA,
+    setItemsA,
+    itemsB: itemsBState.itemsB,
+    dispatchItemsB,
   }
 
   return (
